@@ -1,0 +1,31 @@
+name: Gerar Site para Hostgator
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Baixar Código
+      uses: actions/checkout@v4
+
+    - name: Instalar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Instalar Dependências
+      run: npm install
+
+    - name: Construir Site (Gerar HTML)
+      run: npm run build
+
+    - name: Empacotar Site Pronto
+      uses: actions/upload-artifact@v4
+      with:
+        name: site-pronto-para-hostgator
+        path: dist/
